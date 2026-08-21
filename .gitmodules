@@ -21,4 +21,4 @@
 	url = https://github.com/rsalemiTeaches/intro2programming
 [submodule "shared"]
 	path = shared
-	url = https://github.com/natickeng/vault-shared.git
+	url = https://github.com/mrsalemi/vault-shared.git
