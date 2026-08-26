@@ -432,3 +432,8 @@ guides/**/*.pdf
 # rsalemiTeaches/guide-builder and is pushed there by ./setup-builder.sh, which
 # deletes this folder when it is done. Nothing in it is ever committed here.
 /_builder_staging/
+
+# Deck generators live in slides/ and are committed; their cropped derivative
+# images are not — they are rebuilt from assets/ on any machine that runs the
+# build, the same rule the guide PDFs follow.
+/slides/.build/

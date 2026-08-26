@@ -117,15 +117,15 @@ not cover. A uv-managed Python contains symlinks (`bin/python3` →
 those, build these locally and `tar -cf "$D/uv-python.tar" -C <local> .`
 instead. The script accepts either form.
 
-Optionally, add Arduino board packages for the one account per machine that
-needs them. Launch the IDE once on your Mac, then:
+Optionally, add Arduino board packages. Launch the IDE once on your Mac,
+then:
 
 ```bash
 ditto ~/Library/Arduino15 "$D/arduino15"
 ```
 
-and set `ARDUINO_ACCOUNTS` at the top of the script. `--check` will complain
-if the folder is on the drive and that list is still empty.
+That is the whole step. If the folder is on the drive, the script seeds it
+into all eight accounts; if it is not, the seeding is skipped.
 
 ### Check the drive before you carry it anywhere
 

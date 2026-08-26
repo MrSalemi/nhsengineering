@@ -638,12 +638,16 @@ a thread about one would open by reading the state of another.
     across 8 accounts is a support call waiting to happen. Affects
     `nhsengineering` only. — 2026-08-19
 
-42. **Tinkercad is the one dependency that cannot live on the drive, and it
+42. ~~**Tinkercad is the one dependency that cannot live on the drive, and it
     is untested.** Unit 01's Sim half is a website, so it needs accounts and
     it needs to clear the school content filter. Everything else in either
     unit now installs offline. This is not a decision so much as the one
     remaining thing to verify before September, recorded here so it is not
-    rediscovered in a classroom. Affects `nhsengineering` only. — 2026-08-19
+    rediscovered in a classroom.~~ — 2026-08-19
+
+    **Resolved — not actually a risk.** Tinkercad has worked at the school
+    for years; the school filter was never in question. Affects
+    `nhsengineering` only. — 2026-08-26
 
 43. **The lab drive carries one model, staged by name with
     `tools/stage-model.sh`. Never `cp -R ~/.ollama/models`.** The obvious
@@ -1064,3 +1068,152 @@ a thread about one would open by reading the state of another.
 
     Affects `nhsengineering`, and `nhsrobotics` for that worksheet.
     — 2026-08-20
+
+57. **`qwen2.5-coder:7b` generates a working first draft of all five assigned
+    games, not just Pong.** Following #54's Pong test, the same one-paragraph
+    shape — genre name, core objects and controls, screen size, "using
+    pygame" — was tried against Breakout, Snake, Space Invaders and Frogger.
+    All four came back as running code, same as Pong did. The output is
+    rough, same as Pong's was: that is expected and is the point of P04's
+    Step 7 (play it, write down what's wrong) and Step 8 (put it in the
+    PRD), not a defect to fix in the prompt.
+
+    "using pygame" must be stated explicitly, or the prompt doesn't reliably
+    ask for it. Adding "and uv" was tried and found to do nothing: `uv` is a
+    CLI step the student runs separately (`uv add --script`, `uv run`),
+    never something the generated code itself does, so the model has
+    nothing to act on and ignores it. Affects `nhsengineering` only.
+    — 2026-08-20
+
+58. **Slide decks are generated from a script in `slides/`, and pptxgenjs's
+    `sizing` option is never used — it silently distorts every picture.**
+    The Class 01 welcome deck was rebuilt from 31 slides to 20. The rebuild is
+    `slides/build-class01-welcome.js`; the `.pptx` is an output, like a guide
+    PDF, and hand-editing it loses the next build.
+
+    Every image in the first build was stretched. `sizing: { type: "contain" }`
+    and `{ type: "cover" }` write an all-zero `<a:srcRect>` and leave the
+    picture scaled to its box — 22 of 22 pictures wrong, the worst by 137%.
+    `sizing: { type: "crop" }` is broken differently: it emitted `r="-53632"`,
+    a negative crop. Ray spotted it on the slides; nothing in the toolchain
+    did. The XSD passes, `validate.py` reports "All validations PASSED", and
+    LibreOffice renders the distortion faithfully, so a visual QA pass sees a
+    stretched photo and has nothing to compare it against.
+
+    The geometry is computed in the generator instead. `place()` either fits
+    the picture inside its frame at true ratio and centres it, or centre-crops
+    a derivative with `sharp` to the frame's exact ratio; either way pptxgenjs
+    receives an x/y/w/h that already matches, with nothing left to stretch.
+    Cropped derivatives go to `slides/.build/`, gitignored — reproducible from
+    `assets/`, same rule as #8.
+
+    **New test: `slides/check-aspect.js`.** It re-measures the finished file,
+    comparing each shape's on-slide ratio against the embedded image's own,
+    adjusted for any crop, and fails past 1%. Confirmed to fail on the previous
+    build — 22 of 22 — before being trusted on the new one. `npm run all`
+    builds and checks.
+
+    The images themselves were extracted from the original deck into
+    `assets/class01-welcome/`, renamed by slide and subject, with a README
+    mapping each one, so a future deck does not have to unzip a `.pptx` to
+    reuse a picture. Affects `nhsengineering` only. — 2026-08-26
+
+59. **The Class 01 welcome deck is a filter, and it filters on interest, not
+    on difficulty.** Guidance places students in this class who belong in the
+    other Engineering class at Natick — where a student can sit on a phone,
+    hand in an arts-and-crafts project late, and take an A. The goal for day
+    one is that every one of them switches out, voluntarily. This is also why
+    the units are ordered electronics, then software engineering, then
+    robotics: a student who does not find this kind of work fun meets that
+    fact immediately.
+
+    **The mechanism matters more than the intent.** A deck built on "this
+    class is hard" selects on confidence: the anxious student who would
+    thrive leaves, and the coaster — who has heard "this class is hard" from
+    every teacher since sixth grade — stays. So the deck shows the work
+    instead. What you will have built by December, on real photographs.
+    Engineering is fun and engineering is not easy, both at once. Then an
+    exit that is explicit, warm and unashamed, placed *after* the student has
+    seen what they would be giving up.
+
+    Three calls inside that:
+
+    - **The exit names no mechanism.** No deadline, no guidance office, no
+      procedure — just "there is still time to switch." Ray's call: they know
+      how, and printing the steps turns an invitation into an eviction
+      notice.
+    - **The other class is never named or alluded to.** It would reach that
+      teacher, it makes Ray the colleague who trashes colleagues, and it
+      hands a coasting student a target to defend instead of a choice to
+      make.
+    - **The real filter is the last twenty minutes of the period**, not the
+      deck. A student who leaves having wired something in Tinkercad that did
+      not work first try knows. That caps the deck at about twenty minutes,
+      which is what forced 31 slides down to 20.
+
+    The deck also stopped disagreeing with the guides: its grading slide is
+    `guides/unit01/course.js` verbatim (20 / 18 / 0), replacing "late gets a
+    0, then 90% credit." Arguably the same policy, but not the same words,
+    and a student meets both.
+
+    **Cut: the two administration policy slides.** They were the department's
+    memo *to teachers* — "please write them up," "so deans/VPs can use
+    progressive discipline" — projected at students, nine bullets deep, in
+    red, unreadable from the back row and addressed to the wrong audience.
+    The holder photo and a three-line ladder say it. Affects
+    `nhsengineering` only. — 2026-08-26
+
+60. **"Unit 01 is closed" (#48) means closed to development, not closed to
+    teaching.** Misread once this session, badly enough to produce a wrong
+    claim that the welcome deck pointed at last year's course. Unit 01 is the
+    **first** unit students take; its guides build, deploy, and are
+    classroom-tested (#17). A deck that ends on Tinkercad and Project 00 is
+    correct, not stale. What #48 rules is that a thread opening on this repo
+    does not pick up Unit 01 polish unless Ray says so. Affects
+    `nhsengineering` only. — 2026-08-26
+
+61. **`start-thread` verifies STATUS.md's open items before reporting them.**
+    The skill used to say, in its own text, that it must not check any claim
+    against the repo. Following that, this session opened by reciting three
+    dead items as live work — the lab Macs (all 20 done), Tinkercad (working
+    at the school for years), and a stray `game.py` (gone for days). Ray:
+    "You need to start checking things before you waste my time with them."
+
+    Nothing in this log ever asked for that rule; it came from an earlier
+    session's edit to the skill. The skill is now V06: a read-only pass —
+    `ls`, `grep`, `git status` — over what STATUS.md lists as open, reporting
+    anything that died on contact, and saying so plainly rather than reciting
+    it as current. What cannot be checked from a sandbox — hardware, hand
+    testing, anything needing a network — is still reported as written,
+    without hedging language layered on top.
+
+    **Checking is still not fixing.** The skill keeps its ban on editing
+    files, fixing what it finds, and starting the next job. Affects every
+    project that uses `start-thread`, not just this one. — 2026-08-26
+
+58. **Everything on the drive installs to all eight accounts. There is no
+    per-account list.** This reverses the Arduino carve-out in #41, which
+    seeded board packages only into the accounts named in
+    `ARDUINO_ACCOUNTS` on the reasoning that one class period of eight uses
+    the Arduino IDE.
+
+    The carve-out cost more than it saved. The array shipped empty, so the
+    seeding never ran; `--check` grew a rule that failed the drive when
+    `arduino15/` was present and the list was not filled in; `LAB-SETUP.md`
+    grew a step telling Ray to edit the script; and every thread that read
+    STATUS.md re-raised "which account is it?" as an open question. All of
+    that to avoid copying a board-package folder into seven accounts that
+    will not open the IDE — disk space nobody is short of.
+
+    `ARDUINO_ACCOUNTS` is deleted. The seeding loop runs over `ACCOUNTS`,
+    the same eight every other step uses. `--check`'s empty-list rule is
+    deleted with it, because the condition it detected can no longer
+    happen. `arduino15/` on the drive means seeded; absent means skipped.
+    Copied, not symlinked, is unchanged from #41 — the IDE writes into that
+    folder, so eight accounts sharing one writable copy is still a support
+    call waiting to happen.
+
+    Tinkercad's entry (#42) was resolved the same day: it has worked at the
+    school for years and the content filter was never in question.
+
+    Affects `nhsengineering` only. — 2026-08-26

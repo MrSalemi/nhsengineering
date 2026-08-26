@@ -44,8 +44,8 @@
 #   uv-cache/       optional. Seeds UV_CACHE_DIR so pygame never downloads.
 #   uv-python/      optional. Seeds UV_PYTHON_INSTALL_DIR, which UV_CACHE_DIR
 #                   does not cover — separate variable, separate folder.
-#   arduino15/      optional. Board packages for the one account that needs
-#                   the Arduino IDE. Set ARDUINO_ACCOUNTS below.
+#   arduino15/      optional. Board packages for the Arduino IDE. Seeded
+#                   into every account in ACCOUNTS.
 #
 # The last three may also be `.tar` instead of a folder, which is what a FAT
 # drive needs: a uv-managed Python contains symlinks too.
@@ -65,11 +65,6 @@ SHARED_UV_PYTHON="/Users/Shared/uv-python"
 # The 8 local per-period accounts on each lab Mac. A hardcoded list, not a
 # UID range, so this cannot wander into some other account — DECISIONS #30.
 ACCOUNTS=(blue01 blue02 blue03 blue04 red01 red02 red03 red04)
-
-# Which of those accounts gets the Arduino board packages seeded. Only one
-# class out of eight uses the Arduino IDE, so this is not all of them. Leave
-# empty to skip the seeding entirely; the app still installs for everyone.
-ARDUINO_ACCOUNTS=()
 
 # The machine-wide files that give every account the uv environment.
 #
@@ -197,11 +192,6 @@ for opt in uv-cache uv-python arduino15; do
   fi
 done
 
-
-if [[ ${#ARDUINO_ACCOUNTS[@]} -eq 0 ]] \
-   && { [[ -d "$SCRIPT_DIR/arduino15" ]] || [[ -f "$SCRIPT_DIR/arduino15.tar" ]]; }; then
-  bad "arduino15 is on the drive but ARDUINO_ACCOUNTS is empty — nothing would be seeded."
-fi
 
 if [[ $problems -ne 0 ]]; then
   echo ""
@@ -384,15 +374,14 @@ for user in "${ACCOUNTS[@]}"; do
   chown -R "$user":staff "$home/.ollama"
 done
 
-# Arduino board packages, for the one class that uses them. Copied rather
-# than symlinked: the IDE writes into this folder, and a shared copy that
-# eight accounts could write to is a support call waiting to happen. Only
-# one account per machine needs it, so a copy costs nothing.
-if [[ ${#ARDUINO_ACCOUNTS[@]} -gt 0 ]] \
-   && { [[ -f "$SCRIPT_DIR/arduino15.tar" ]] || [[ -d "$SCRIPT_DIR/arduino15" ]]; }; then
+# Arduino board packages, seeded into every account. Copied rather than
+# symlinked: the IDE writes into this folder, and a shared copy that eight
+# accounts could write to is a support call waiting to happen. A copy per
+# account costs little and removes the question of which period needs it.
+if [[ -f "$SCRIPT_DIR/arduino15.tar" ]] || [[ -d "$SCRIPT_DIR/arduino15" ]]; then
   echo ""
   echo "Seeding Arduino board packages..."
-  for user in "${ARDUINO_ACCOUNTS[@]}"; do
+  for user in "${ACCOUNTS[@]}"; do
     home=$(dscl . -read "/Users/$user" NFSHomeDirectory 2>/dev/null | awk '{print $2}')
     if [[ -z "$home" || ! -d "$home" ]]; then
       echo "  skipping $user — account not found on this machine"

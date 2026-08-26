@@ -1,0 +1,16 @@
+{
+  "name": "nhsengineering-slides",
+  "private": true,
+  "description": "Generators for the Engineering class decks. Edit the .js, not the .pptx.",
+  "scripts": {
+    "build": "node build-class01-welcome.js",
+    "check": "node check-aspect.js \"../Engineering _ Class 01 _ Welcome (2026).pptx\"",
+    "all": "npm run build && npm run check"
+  },
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "image-size": "^2.0.2",
+    "pptxgenjs": "^4.0.1",
+    "sharp": "^0.34.4"
+  }
+}
