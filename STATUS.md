@@ -65,10 +65,13 @@ sheet was confirmed before deploying on 2026-08-20.
 
 ## Current units
 
-**One unit is active: Unit 02 (Software Engineering).** Unit 01 (Electronics)
-is **closed** — see [DECISIONS #48](DECISIONS.md). Its guides build and
-deploy, and the content is classroom-tested (#17). Nothing below the Unit 01
-heading is work. Skip to Unit 02.
+**The class is teaching Unit 01 (Electronics).** It ends with Exercise 09
+(Simon), due Tue 2026-10-06. Unit 01 is **closed to development** — see
+[DECISIONS #48](DECISIONS.md). Its guides build and deploy, and the content is
+classroom-tested (#17). Nothing below the Unit 01 heading is work.
+
+**Unit 02 (Software Engineering) is built and deployed, and not yet
+scheduled.** Development work, if any, happens there — skip to Unit 02.
 
 A note on what "closed" means, because it was misread once: closed to
 *development*. Unit 01 is the first unit of the course and is taught first —
