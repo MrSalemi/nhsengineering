@@ -85,6 +85,8 @@ has its own section below.
 **Ten guides, imported from Google Docs and building to PDF. None has been
 taught from in this form.**
 
+**All ten guides are printed for the class, as of 2026-09-15.**
+
 | # | Guide | Pages |
 |---|---|---|
 | E00 | Set Up the Arduino IDE | 8 |
