@@ -66,7 +66,8 @@ sheet was confirmed before deploying on 2026-08-20.
 ## Current units
 
 **The class is teaching Unit 01 (Electronics).** It ends with Exercise 09
-(Simon), due Tue 2026-10-06. Unit 01 is **closed to development** — see
+(Simon), due Fri 2026-10-02. That date moved: the sheet had it on Tue 10/6
+until the 9/17 sick day reshuffled the column. Unit 01 is **closed to development** — see
 [DECISIONS #48](DECISIONS.md). Its guides build and deploy, and the content is
 classroom-tested (#17). Nothing below the Unit 01 heading is work.
 
