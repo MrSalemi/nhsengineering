@@ -37,7 +37,7 @@ guide's. `extras.txt` gets it rebuilt and deployed with the guides.
 
 ## Building
 
-The builder is `builder/`, a submodule shared with `nhsrobotics`. It holds no
+The builder is `shared/`, a symlink to `~/vaults/shared` used by every course. It holds no
 guides and no pictures. Run it **from the folder the guides are in**.
 
 ```bash
@@ -49,7 +49,7 @@ cd guides/unit01
 node ../../shared/test-build.js    # check the builder
 ```
 
-[builder/README.md](builder/README.md) explains the markdown the builder
+[shared/README.md](shared/README.md) explains the markdown the builder
 understands.
 
 ## Links inside a guide

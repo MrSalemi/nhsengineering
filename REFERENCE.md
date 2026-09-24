@@ -14,9 +14,9 @@ is no editable copy of a guide anywhere, which is the point — an edit that is 
 in the markdown cannot survive, so it cannot be made by accident.
 
 **Content and builder are separate folders.** `guides/unit01/` holds the
-markdown, `images/`, and the built PDFs. `builder/` is a submodule of
-`rsalemiTeaches/guide-builder`, shared with `nhsrobotics`, and holds no guides
-and no pictures at all. Run the build **from the folder the guides are in** — the
+markdown, `images/`, and the built PDFs. `shared/` is a symlink to
+`~/vaults/shared` (the `vault-shared` repo), shared with every course, and holds
+no guides and no pictures at all. Run the build **from the folder the guides are in** — the
 builder takes the guide's own folder as the place to find everything.
 
 ```bash
@@ -29,12 +29,13 @@ node ../../shared/test-build.js       # check the builder, no robot and no Word
 
 **A guide is only rebuilt when it is stale**, the way make works: its markdown,
 one of its pictures, or the builder itself is newer than the PDF. Staleness
-reaches across into the submodule, so bumping the builder pin marks every guide
+reaches across into `shared/`, so any change to the builder marks every guide
 stale. Pagination is measured by running the file through LibreOffice, which is
 slow, so this is the difference between a minute and a second.
 
-`builder/README.md` explains the markdown the builder understands. It is the
-same builder `nhsrobotics` uses — one repo, pinned separately by each course.
+`shared/README.md` explains the markdown the builder understands. It is the
+same builder `nhsrobotics` uses — one folder, reached by symlink from every
+course, so there is no per-course pin.
 See [DECISIONS #5](DECISIONS.md) and the entry that reverses it.
 
 ### Rules that bite
