@@ -1,2 +1,2 @@
 # Where the built guides are deployed, relative to the Class Development folder.
-Engineering/Projects/Unit 01—Electronics
+Class Development/Engineering/Projects/Unit 01—Electronics
