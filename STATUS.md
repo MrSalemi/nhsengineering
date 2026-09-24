@@ -135,7 +135,33 @@ builder's `topdf.js`, so Word is no more in this chain than in a guide's.
 - **The repo is an Obsidian vault.** Wikilinks on, `third_party/` excluded,
   `.obsidian/workspace.json` gitignored. Built guides are not committed.
 
-## What's open — nothing. Unit 01 is closed.
+## What's open
+
+**Build a one-page Ollama intro for E09, the Simon Game** — added 2026-09-24
+from Life Planning, at Ray's request
+
+~~Nothing. Unit 01 is closed.~~ — 2026-09-24: Ray reopened E09 for this one page.
+
+E09 says "You have an AI software engineering partner (Ollama)" and tells
+students what to hand it — pin numbers, SDA/SCL on A4/A5, maybe the HelloWorld
+program — but never says how to use Ollama. Students need a one-page intro.
+Engineering works E09 Wed 9/30; it is due Fri 10/2. The page has to exist by
+Tue 9/29.
+
+Start from Unit 02, Project 03: `guides/unit02/p03.md` ("Ask an AI to Build
+It"). Its Step 2 through Step 9 are already the whole Ollama loop — open the
+app, pick `qwen2.5-coder:7b` in the Select Model pulldown, paste a prompt,
+copy the code block, run it, paste an error back into the same chat, check the
+result against the prompt, ask again if it does not match. The screenshots are
+in `guides/unit02/images/` (`CleanShot 2026-08-19 at 11.36.31.png` is the
+model pulldown).
+
+What has to change for E09 is this thread's call. At least: E09's code is
+Arduino, not Python, so the block to copy is not labeled **python**; it goes
+into Tinkercad's code editor and then the Arduino IDE, not a `.py` file run
+with `uv`; and a failure shows up as a compile error or a wrong-acting
+circuit, not a Python crash. E09's own "Hardware Test" prompt is a natural
+first prompt for the page.
 
 The items below are recorded polish, not a to-do list. Per
 [DECISIONS #48](DECISIONS.md), a thread does not pick these up.
