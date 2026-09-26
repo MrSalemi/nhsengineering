@@ -138,8 +138,9 @@ builder's `topdf.js`, so Word is no more in this chain than in a guide's.
 
 ## What's open
 
-**Build a one-page Ollama intro for E09, the Simon Game** — added 2026-09-24
-from Life Planning, at Ray's request
+~~**Build a one-page Ollama intro for E09, the Simon Game** — added 2026-09-24
+from Life Planning, at Ray's request~~ — 2026-09-26: done. `guides/unit01/o09.md`,
+the E09 Ollama quick-start sheet.
 
 ~~Nothing. Unit 01 is closed.~~ — 2026-09-24: Ray reopened E09 for this one page.
 
